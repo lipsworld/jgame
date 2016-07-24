@@ -51,3 +51,11 @@ can take the scene's requirements and render them on the page.
 * jgame.js - defines a newControls function which constructs a Controls object, which knows about the moves you can make in a Scene.  We also have the Scene give us the correct Controls.
 * demo.js - extend our description of the scene a little, and add a single available move
 
+## Step 5: Prepare to support multiple scenes
+
+Up until now, we've focused on rendering a single scene and its controls.  Our code isn't well suited to supporting multiple scenes, so we need to change some things
+
+* demo.js - change the structure of the demo game, to allow multiple scenes by name
+* jgame.html - instead of sending the initialScene to the game, send the entire game data module
+* jgame.js - Change the way we startup to use the game data module
+

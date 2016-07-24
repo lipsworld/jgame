@@ -12,8 +12,11 @@ var jgame = {
 
     // call this function to start up the game
     startup : function(params) {
+        // get the game data (all the scenes and stuff)
+        var gameData = params.gameData;
+
         // initial scene from your game to load
-        var initialScene = params.initialScene;
+        var initialScene = gameData.scenes[gameData.initialScene];
 
         // render the template
         $("#jgame").html(jgame.TEMPLATE);
