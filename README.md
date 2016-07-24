@@ -28,6 +28,10 @@ We do this by using JavaScript to write some HTML into the page, and using some 
 
 ## Step 3: Get our first game scene to exist
 
+[View Code](https://github.com/richard-jones/jgame/tree/46573ee5ae66ff5b8199233868fae40294189926)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/46573ee5ae66ff5b8199233868fae40294189926)
+
 We represent each scene in the game with an object which will hold the state for that scene, and will now how to render itself
 
 * src/jgame.js - defines a newScene function with constructs a Scene object which can have properties, like an intro
