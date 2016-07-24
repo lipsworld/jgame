@@ -53,6 +53,10 @@ can take the scene's requirements and render them on the page.
 
 ## Step 5: Prepare to support multiple scenes
 
+[View Code](https://github.com/richard-jones/jgame/tree/93df0a88a83cfc88de3679974e816bd5f6ba374a)
+
+[View Diff](https://github.com/richard-jones/jgame/tree/93df0a88a83cfc88de3679974e816bd5f6ba374a)
+
 Up until now, we've focused on rendering a single scene and its controls.  Our code isn't well suited to supporting multiple scenes, so we need to change some things
 
 * demo.js - change the structure of the demo game, to allow multiple scenes by name
