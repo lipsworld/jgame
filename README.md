@@ -38,3 +38,12 @@ We represent each scene in the game with an object which will hold the state for
 * src/demo.js - this is where we'll build our actual game data
 * jgame.html - load our new demo.js file, and send the initial scene into jgame.startup()
 
+
+## Step 4: Make some initial (non functional) controls
+
+Each scene will have controls that are dependent on what is going on in the scene.  We make a new Controls object which
+can take the scene's requirements and render them on the page.
+
+* jgame.js - defines a newControls function which constructs a Controls object, which knows about the moves you can make in a Scene.  We also have the Scene give us the correct Controls.
+* demo.js - extend our description of the scene a little, and add a single available move
+
