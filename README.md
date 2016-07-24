@@ -41,6 +41,10 @@ We represent each scene in the game with an object which will hold the state for
 
 ## Step 4: Make some initial (non functional) controls
 
+[View Code](https://github.com/richard-jones/jgame/tree/223fdf03aed5192425ad535a6b3a58b757418ba0)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/223fdf03aed5192425ad535a6b3a58b757418ba0)
+
 Each scene will have controls that are dependent on what is going on in the scene.  We make a new Controls object which
 can take the scene's requirements and render them on the page.
 
