@@ -24,3 +24,13 @@ We do this by using JavaScript to write some HTML into the page, and using some 
 * src/jgame.js - defines a TEMPLATE for the layout, and writes it into the HTML DIV with the id "jgame"
 * css/jgame.css - defines layout styles for the scene and the controls
 * jgame.html - calls the jgame.startup() function to load the game when the browser is ready
+
+
+## Step 3: Get our first game scene to exist
+
+We represent each scene in the game with an object which will hold the state for that scene, and will now how to render itself
+
+* src/jgame.js - defines a newScene function with constructs a Scene object which can have properties, like an intro
+* src/demo.js - this is where we'll build our actual game data
+* jgame.html - load our new demo.js file, and send the initial scene into jgame.startup()
+
