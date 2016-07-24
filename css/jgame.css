@@ -1,0 +1,12 @@
+#jgame_scene {
+    margin-top: 40px;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+#jgame_controls {
+    border: 1px solid #cccccc;
+    padding: 10px;
+}

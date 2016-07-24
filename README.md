@@ -10,3 +10,13 @@ We have an HTML file in jgame.html which will be our entry point into the applic
 * src - for all jgame JavaScript files
 * vendor - for all libraries and other 3rd party bits we'll use (like bootstrap and jquery)
 
+
+## Step 2: Set up a view on the program
+
+In order to see what the program is outputting, we need to set up the interface so that we can start outputting things to it.
+
+We do this by using JavaScript to write some HTML into the page, and using some CSS to style that HTML into a basic interface for our game
+
+* src/jgame.js - defines a TEMPLATE for the layout, and writes it into the HTML DIV with the id "jgame"
+* css/jgame.css - defines layout styles for the scene and the controls
+* jgame.html - calls the jgame.startup() function to load the game when the browser is ready
