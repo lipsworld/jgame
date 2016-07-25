@@ -55,7 +55,7 @@ can take the scene's requirements and render them on the page.
 
 [View Code](https://github.com/richard-jones/jgame/tree/93df0a88a83cfc88de3679974e816bd5f6ba374a)
 
-[View Diff](https://github.com/richard-jones/jgame/tree/93df0a88a83cfc88de3679974e816bd5f6ba374a)
+[View Diff](https://github.com/richard-jones/jgame/commit/93df0a88a83cfc88de3679974e816bd5f6ba374a)
 
 Up until now, we've focused on rendering a single scene and its controls.  Our code isn't well suited to supporting multiple scenes, so we need to change some things
 
@@ -65,6 +65,10 @@ Up until now, we've focused on rendering a single scene and its controls.  Our c
 
 
 ## Step 6: Bind our first event handler to move between scenes
+
+[View Code](https://github.com/richard-jones/jgame/tree/2e1ebfbb17d86aa96edbf1ce4086316c347c63ac)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/2e1ebfbb17d86aa96edbf1ce4086316c347c63ac)
 
 We create second scene in the demo game, and add a link in the controls that allows us to change the scene by clicking the move instruction
 
