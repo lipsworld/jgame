@@ -78,6 +78,10 @@ We create second scene in the demo game, and add a link in the controls that all
 
 ## Step 7: Our first minor refactor
 
+[View Code](https://github.com/richard-jones/jgame/tree/0e4025c74116f834ef14a67329dc7f9a3c577d86)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/0e4025c74116f834ef14a67329dc7f9a3c577d86)
+
 We had 2 functions (jgame.startup and jgame.move) that were of a similar structure.  We now want to DRY (Don't Repeat Yourself) that code
 
 * jgame.js - merge shared functionality from jgame.startup and jgame.move into jgame.enterScene, and have the old functions use that new one
