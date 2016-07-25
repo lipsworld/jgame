@@ -74,3 +74,12 @@ We create second scene in the demo game, and add a link in the controls that all
 
 * demo.js - add a new scene ("cliff") and a "move_to" field in the "move" objects
 * jgame.js - create a move link, and bind a jquery event handler which calls the new jgame.move function, which moves the view to a new scene
+
+
+## Step 7: Our first minor refactor
+
+We had 2 functions (jgame.startup and jgame.move) that were of a similar structure.  We now want to DRY (Don't Repeat Yourself) that code
+
+* jgame.js - merge shared functionality from jgame.startup and jgame.move into jgame.enterScene, and have the old functions use that new one
+
+

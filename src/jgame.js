@@ -19,24 +19,22 @@ var jgame = {
         var gameData = params.gameData;
         jgame.gameData = gameData;
 
-        // initial scene from your game to load
-        var initialScene = gameData.scenes[gameData.initialScene];
-
         // render the template
         $("#jgame").html(jgame.TEMPLATE);
 
-        // draw the initial scene
-        initialScene.draw();
-
-        // get the controls for the scene and draw them
-        var controls = initialScene.getControls();
-        controls.draw();
+        jgame.enterScene({sceneId : gameData.initialScene});
     },
 
     // move the view to a new scene
     move : function(params) {
         var moveTo = params.moveTo;
-        var newScene = jgame.gameData.scenes[moveTo];
+        jgame.enterScene({sceneId: moveTo});
+    },
+
+    enterScene : function(params) {
+        var sceneId = params.sceneId;
+
+        var newScene = jgame.gameData.scenes[sceneId];
 
         newScene.draw();
 
