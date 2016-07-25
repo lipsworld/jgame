@@ -63,3 +63,10 @@ Up until now, we've focused on rendering a single scene and its controls.  Our c
 * jgame.html - instead of sending the initialScene to the game, send the entire game data module
 * jgame.js - Change the way we startup to use the game data module
 
+
+## Step 6: Bind our first event handler to move between scenes
+
+We create second scene in the demo game, and add a link in the controls that allows us to change the scene by clicking the move instruction
+
+* demo.js - add a new scene ("cliff") and a "move_to" field in the "move" objects
+* jgame.js - create a move link, and bind a jquery event handler which calls the new jgame.move function, which moves the view to a new scene
