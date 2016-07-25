@@ -87,3 +87,11 @@ We had 2 functions (jgame.startup and jgame.move) that were of a similar structu
 * jgame.js - merge shared functionality from jgame.startup and jgame.move into jgame.enterScene, and have the old functions use that new one
 
 
+## Step 8: Support the existence of items in scenes
+
+We add the ability for a scene to contain items, and for those items to be passed on to the controls, so that in the next step we can interact with them
+
+* demo.js - add a list of a single item with a name and sceneDescription to the first scene
+* jgame.js - support the adding of items to a scene, render the scene description for the item at draw, and pass it on to the controls.  The controls now render select boxes for interacting with scene items.
+
+

@@ -5,9 +5,15 @@ var jgame_demo = {
     // list of scenes that appear in the game
     scenes : {
         "clearing" : jgame.newScene({
-            intro: "Welcome to our new game!<br><br>You are standing in a clearing, and a path leads to the North",
+            intro: "Welcome to our new game!<br><br>You are standing in a clearing, and a path leads to the North.",
             moves : [
                 {display: "Follow the path North", move_to: "cliff"}
+            ],
+            items : [
+                {
+                    name: "Lasso",
+                    sceneDescription: "There is a lasso lying on the ground."
+                }
             ]
         }),
         "cliff" : jgame.newScene({
