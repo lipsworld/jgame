@@ -89,6 +89,10 @@ We had 2 functions (jgame.startup and jgame.move) that were of a similar structu
 
 ## Step 8: Support the existence of items in scenes
 
+[View Code](https://github.com/richard-jones/jgame/tree/abe0b0c03b35441376d9954d5e3f120a3e99cfc7)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/abe0b0c03b35441376d9954d5e3f120a3e99cfc7)
+
 We add the ability for a scene to contain items, and for those items to be passed on to the controls, so that in the next step we can interact with them
 
 * demo.js - add a list of a single item with a name and sceneDescription to the first scene
