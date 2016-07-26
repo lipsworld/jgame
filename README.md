@@ -99,3 +99,10 @@ We add the ability for a scene to contain items, and for those items to be passe
 * jgame.js - support the adding of items to a scene, render the scene description for the item at draw, and pass it on to the controls.  The controls now render select boxes for interacting with scene items.
 
 
+## Step 9: First interaction with an item in a scene
+
+We add the general ability to interact with an item in a scene, and implement the ability to look at items.
+
+* demo.js - add the text that will be displayed when you look at an item
+* jgame.js - bind an event handler to the item interaction button, and an action method on the Scene that an react to the interaction, which implements the ability to Look At an item
+

@@ -12,7 +12,8 @@ var jgame_demo = {
             items : [
                 {
                     name: "Lasso",
-                    sceneDescription: "There is a lasso lying on the ground."
+                    sceneDescription: "There is a lasso lying on the ground.",
+                    lookAt: "There is a curled up rope on the ground, with a slipknot tied in it, like something a cowboy might use"
                 }
             ]
         }),

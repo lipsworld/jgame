@@ -13,6 +13,9 @@ var jgame = {
     // this is where we'll store a copy of the game data
     gameData : false,
 
+    // this is where we'll store a copy of the current scene
+    currentScene : false,
+
     // call this function to start up the game
     startup : function(params) {
         // get the game data (all the scenes and stuff)
@@ -35,6 +38,7 @@ var jgame = {
         var sceneId = params.sceneId;
 
         var newScene = jgame.gameData.scenes[sceneId];
+        jgame.currentScene = newScene;
 
         newScene.draw();
 
@@ -84,6 +88,31 @@ var jgame = {
                 moves: this.moves,
                 sceneItems: sceneItems
             });
+        };
+
+        this.action = function(params) {
+            var act = params.action;
+            var on = params.on;
+
+            if (act === "look_at") {
+                var item = this._getItem(on);
+                var text = "<br><br>Look at " + on;
+                if (item.lookAt) {
+                    text = "<br><br>" + item.lookAt;
+                }
+                $("#jgame_scene").append(text);
+            } else if (act === "pick_up") {
+                // we can't fill this in yet, as we don't know what it means to pick something up
+            }
+        };
+        
+        this._getItem = function(name) {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].name === name) {
+                    return this.items[i];
+                }
+            }
+            return false;
         }
     },
 
@@ -134,6 +163,14 @@ var jgame = {
                 event.preventDefault();
                 var moveTo = $(this).attr("data-move-to");
                 jgame.move({moveTo : moveTo});
+            });
+
+            // bind the click event to the action button
+            $("#jgame_act").on("click", function(event) {
+                event.preventDefault();
+                var action = $("select[name=jgame_action]").val();
+                var item = $("select[name=jgame_item]").val();
+                jgame.currentScene.action({action: action, on: item});
             })
         }
     }
