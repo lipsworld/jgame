@@ -101,6 +101,10 @@ We add the ability for a scene to contain items, and for those items to be passe
 
 ## Step 9: First interaction with an item in a scene
 
+[View Code](https://github.com/richard-jones/jgame/tree/230439346677580bff88746276e259986fec805f)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/230439346677580bff88746276e259986fec805f)
+
 We add the general ability to interact with an item in a scene, and implement the ability to look at items.
 
 * demo.js - add the text that will be displayed when you look at an item
