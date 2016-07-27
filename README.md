@@ -113,6 +113,10 @@ We add the general ability to interact with an item in a scene, and implement th
 
 ## Step 10: Add player inventory and pick-up option
 
+[View Code](https://github.com/richard-jones/jgame/tree/4b630cfbdbdd7b9c78b61b6c26e43c380d50e4a9)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/4b630cfbdbdd7b9c78b61b6c26e43c380d50e4a9)
+
 We add the concept of a "player" who has an inventory, and modify the existing code to allow items from a scene to be collected
 
 * demo.js - add an "inventory" version of an item, which is different from the version of the item as it appears in the scene
