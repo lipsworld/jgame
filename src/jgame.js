@@ -16,6 +16,11 @@ var jgame = {
     // this is where we'll store a copy of the current scene
     currentScene : false,
 
+    // object for storing the state of the player in the game
+    player : {
+        inventory: []
+    },
+
     // call this function to start up the game
     startup : function(params) {
         // get the game data (all the scenes and stuff)
@@ -32,6 +37,13 @@ var jgame = {
     move : function(params) {
         var moveTo = params.moveTo;
         jgame.enterScene({sceneId: moveTo});
+    },
+
+    action : function(params) {
+        jgame.currentScene.action(params);
+
+        var controls = jgame.currentScene.getControls();
+        controls.draw();
     },
 
     enterScene : function(params) {
@@ -69,7 +81,7 @@ var jgame = {
 
             for (var i = 0; i < this.items.length; i++) {
                 var item = this.items[i];
-                if (item.sceneDescription) {
+                if (!item.removed && item.sceneDescription) {
                     text += " " + item.sceneDescription;
                 }
             }
@@ -81,7 +93,9 @@ var jgame = {
             var sceneItems = [];
             for (var i = 0; i < this.items.length; i++) {
                 var item = this.items[i];
-                sceneItems.push(item.name);
+                if (!item.removed) {
+                    sceneItems.push(item.name);
+                }
             }
 
             return jgame.newControls({
@@ -102,7 +116,20 @@ var jgame = {
                 }
                 $("#jgame_scene").append(text);
             } else if (act === "pick_up") {
-                // we can't fill this in yet, as we don't know what it means to pick something up
+                // add the item to the player's inventory
+                var inventoryItem = jgame.gameData.inventory[on];
+                jgame.player.inventory.push(inventoryItem);
+
+                // mark the item as removed from the scene
+                var item = this._getItem(on);
+                item["removed"] = true;
+
+                // output something to the display
+                var text = "<br><br> Pick up " + on;
+                if (item.pickUp) {
+                    text = "<br><br>" + item.pickUp;
+                }
+                $("#jgame_scene").append(text);
             }
         };
         
@@ -170,7 +197,7 @@ var jgame = {
                 event.preventDefault();
                 var action = $("select[name=jgame_action]").val();
                 var item = $("select[name=jgame_item]").val();
-                jgame.currentScene.action({action: action, on: item});
+                jgame.action({action: action, on: item});
             })
         }
     }

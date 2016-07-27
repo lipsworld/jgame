@@ -110,3 +110,11 @@ We add the general ability to interact with an item in a scene, and implement th
 * demo.js - add the text that will be displayed when you look at an item
 * jgame.js - bind an event handler to the item interaction button, and an action method on the Scene that an react to the interaction, which implements the ability to Look At an item
 
+
+## Step 10: Add player inventory and pick-up option
+
+We add the concept of a "player" who has an inventory, and modify the existing code to allow items from a scene to be collected
+
+* demo.js - add an "inventory" version of an item, which is different from the version of the item as it appears in the scene
+* jgame.js - implement "pick_up" as an action you can take on an item in the scene, and add an additional action method in the root of jgame which allows the controls to be re-drawn after
+

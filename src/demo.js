@@ -13,7 +13,8 @@ var jgame_demo = {
                 {
                     name: "Lasso",
                     sceneDescription: "There is a lasso lying on the ground.",
-                    lookAt: "There is a curled up rope on the ground, with a slipknot tied in it, like something a cowboy might use"
+                    lookAt: "There is a curled up rope on the ground, with a slipknot tied in it, like something a cowboy might use",
+                    pickUp: "You stoop down and collect up the rope"
                 }
             ]
         }),
@@ -23,5 +24,13 @@ var jgame_demo = {
                 {display: "Go back South", move_to: "clearing"}
             ]
         })
+    },
+
+    // list of items that can appear in the inventory
+    inventory : {
+        "Lasso" : {
+            name: "Lasso",
+            lookAt: "It's a lasso, like a cowboy might use.  You found it in a clearing."
+        }
     }
 };
