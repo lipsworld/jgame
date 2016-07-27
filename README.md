@@ -125,6 +125,10 @@ We add the concept of a "player" who has an inventory, and modify the existing c
 
 ## Step 11: Make the inventory interactive
 
+[View Code](https://github.com/richard-jones/jgame/tree/aba45a059841164fefbc1a1bdf20be88bf2e687d)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/aba45a059841164fefbc1a1bdf20be88bf2e687d)
+
 We add the inventory to the list of items you can interact with, and handle the look_at and pick_up behaviours for collected items
 
 * jgame.js - add the inventory items to the controls pull-down and upgrade jgame.action so that it can distinguish between actions on the scene and actions on the inventory, and behave appropriately.
