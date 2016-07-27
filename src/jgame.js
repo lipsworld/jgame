@@ -18,7 +18,16 @@ var jgame = {
 
     // object for storing the state of the player in the game
     player : {
-        inventory: []
+        inventory: [],
+        getInventoryItem : function(params) {
+            for (var i = 0; i < this.inventory.length; i++) {
+                var item = this.inventory[i];
+                if (item.name === params.name) {
+                    return item;
+                }
+            }
+            return false;
+        }
     },
 
     // call this function to start up the game
@@ -40,7 +49,22 @@ var jgame = {
     },
 
     action : function(params) {
-        jgame.currentScene.action(params);
+        var source = params.source;
+        if (source === "scene") {
+            jgame.currentScene.action(params);
+        } else if (source === "inventory") {
+            var item = jgame.player.getInventoryItem({name: params.on});
+            if (params.action === "look_at") {
+                var text = "<br><br>Look at " + item.name;
+                if (item.lookAt) {
+                    text = "<br><br>" + item.lookAt;
+                }
+                jgame.currentScene.say({text: text});
+            } else if (params.action === "pick_up") {
+                var text = "<br><br>You already picked that up";
+                jgame.currentScene.say({text: text});
+            }
+        }
 
         var controls = jgame.currentScene.getControls();
         controls.draw();
@@ -87,6 +111,10 @@ var jgame = {
             }
 
             $("#jgame_scene").html(text);
+        };
+
+        this.say = function(params) {
+            $("#jgame_scene").append(params.text);
         };
 
         this.getControls = function() {
@@ -168,10 +196,25 @@ var jgame = {
 
             // construct the HTML select boxes which can be used to interact with the scene itself
             var itemOptionsFrag = "";
-            for (var i = 0; i < this.sceneItems.length; i++) {
-                var item = this.sceneItems[i];
-                itemOptionsFrag += '<option value="' + item + '">' + item + '</option>';
+            // first do the scene items
+            if (this.sceneItems.length > 0) {
+                itemOptionsFrag += '<optgroup label="Scene">';
+                for (var i = 0; i < this.sceneItems.length; i++) {
+                    var item = this.sceneItems[i];
+                    itemOptionsFrag += '<option value="scene ' + item + '">' + item + '</option>';
+                }
+                itemOptionsFrag += "</optgroup>";
             }
+            // then do the player's inventory
+            if (jgame.player.inventory.length > 0) {
+                itemOptionsFrag += '<optgroup label="Inventory">';
+                for (var i = 0; i < jgame.player.inventory.length; i++) {
+                    var item = jgame.player.inventory[i];
+                    itemOptionsFrag += '<option value="inventory ' + item.name + '">' + item.name + '</option>';
+                }
+                itemOptionsFrag += "</optgroup>";
+            }
+
             var actionFrag = '<select name="jgame_action">\
                 <option value="look_at">Look At</option>\
                 <option value="pick_up">Pick Up</option>\
@@ -197,7 +240,8 @@ var jgame = {
                 event.preventDefault();
                 var action = $("select[name=jgame_action]").val();
                 var item = $("select[name=jgame_item]").val();
-                jgame.action({action: action, on: item});
+                var bits = item.split(" ");
+                jgame.action({source: bits[0], action: action, on: bits[1]});
             })
         }
     }

@@ -122,3 +122,10 @@ We add the concept of a "player" who has an inventory, and modify the existing c
 * demo.js - add an "inventory" version of an item, which is different from the version of the item as it appears in the scene
 * jgame.js - implement "pick_up" as an action you can take on an item in the scene, and add an additional action method in the root of jgame which allows the controls to be re-drawn after
 
+
+## Step 11: Make the inventory interactive
+
+We add the inventory to the list of items you can interact with, and handle the look_at and pick_up behaviours for collected items
+
+* jgame.js - add the inventory items to the controls pull-down and upgrade jgame.action so that it can distinguish between actions on the scene and actions on the inventory, and behave appropriately.
+
