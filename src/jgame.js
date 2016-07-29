@@ -17,18 +17,7 @@ var jgame = {
     currentScene : false,
 
     // object for storing the state of the player in the game
-    player : {
-        inventory: [],
-        getInventoryItem : function(params) {
-            for (var i = 0; i < this.inventory.length; i++) {
-                var item = this.inventory[i];
-                if (item.name === params.name) {
-                    return item;
-                }
-            }
-            return false;
-        }
-    },
+    player : false,
 
     // call this function to start up the game
     startup : function(params) {
@@ -36,9 +25,13 @@ var jgame = {
         var gameData = params.gameData;
         jgame.gameData = gameData;
 
+        // create a new player object
+        jgame.player = jgame.newPlayer();
+
         // render the template
         $("#jgame").html(jgame.TEMPLATE);
 
+        // kick off the game with the initial scene
         jgame.enterScene({sceneId : gameData.initialScene});
     },
 
@@ -81,6 +74,38 @@ var jgame = {
         // get the controls for the scene and draw them
         var controls = newScene.getControls();
         controls.draw();
+    },
+
+    // create a newScene for every different scene in your game
+    newPlayer : function(params) {
+        if (!params) { params = {} }
+        return new jgame.Player(params);
+    },
+    Player : function(params) {
+        this.inventory = [];
+
+        this.getInventoryItem = function(params) {
+            for (var i = 0; i < this.inventory.length; i++) {
+                var item = this.inventory[i];
+                if (item.name === params.name) {
+                    return item;
+                }
+            }
+            return false;
+        };
+
+        this.addToInventory = function(params) {
+            var inventoryItem = jgame.gameData.inventory[params.item];
+            this.inventory.push(inventoryItem);
+        };
+
+        this.listInventory = function() {
+            var items = [];
+            for (var i = 0; i < this.inventory.length; i++) {
+                items.push(this.inventory[i].name);
+            }
+            return items;
+        }
     },
 
     // create a newScene for every different scene in your game
@@ -145,8 +170,7 @@ var jgame = {
                 $("#jgame_scene").append(text);
             } else if (act === "pick_up") {
                 // add the item to the player's inventory
-                var inventoryItem = jgame.gameData.inventory[on];
-                jgame.player.inventory.push(inventoryItem);
+                jgame.player.addToInventory({item: on});
 
                 // mark the item as removed from the scene
                 var item = this._getItem(on);
@@ -206,11 +230,12 @@ var jgame = {
                 itemOptionsFrag += "</optgroup>";
             }
             // then do the player's inventory
-            if (jgame.player.inventory.length > 0) {
+            var inventory = jgame.player.listInventory();
+            if (inventory.length > 0) {
                 itemOptionsFrag += '<optgroup label="Inventory">';
-                for (var i = 0; i < jgame.player.inventory.length; i++) {
-                    var item = jgame.player.inventory[i];
-                    itemOptionsFrag += '<option value="inventory ' + item.name + '">' + item.name + '</option>';
+                for (var i = 0; i < inventory.length; i++) {
+                    var item = inventory[i];
+                    itemOptionsFrag += '<option value="inventory ' + item + '">' + item + '</option>';
                 }
                 itemOptionsFrag += "</optgroup>";
             }

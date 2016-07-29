@@ -133,3 +133,10 @@ We add the inventory to the list of items you can interact with, and handle the 
 
 * jgame.js - add the inventory items to the controls pull-down and upgrade jgame.action so that it can distinguish between actions on the scene and actions on the inventory, and behave appropriately.
 
+
+## Step 12: Refactor the Player into a single objects
+
+The Player's inventory was getting a bit out of hand, so we're going to pull all the inventory functionality into a single object, and make the Player a fully constructed object, to bring it in line with the rest of the app
+
+* jgame.js - create a new Player object, and give it functions for interacting with the inventory.  Refactor the rest of the code to use this new object
+
