@@ -136,6 +136,10 @@ We add the inventory to the list of items you can interact with, and handle the 
 
 ## Step 12: Refactor the Player into a single objects
 
+[View Code](https://github.com/richard-jones/jgame/tree/43fb14e561c3795e6a771ae4282aa7c01caf3b37)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/43fb14e561c3795e6a771ae4282aa7c01caf3b37)
+
 The Player's inventory was getting a bit out of hand, so we're going to pull all the inventory functionality into a single object, and make the Player a fully constructed object, to bring it in line with the rest of the app
 
 * jgame.js - create a new Player object, and give it functions for interacting with the inventory.  Refactor the rest of the code to use this new object
