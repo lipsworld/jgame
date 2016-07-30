@@ -169,12 +169,8 @@ var jgame = {
                 }
                 $("#jgame_scene").append(text);
             } else if (act === "pick_up") {
-                // add the item to the player's inventory
-                jgame.player.addToInventory({item: on});
-
-                // mark the item as removed from the scene
+                // get the item and all its data
                 var item = this._getItem(on);
-                item["removed"] = true;
 
                 // output something to the display
                 var text = "<br><br> Pick up " + on;
@@ -182,6 +178,14 @@ var jgame = {
                     text = "<br><br>" + item.pickUp;
                 }
                 $("#jgame_scene").append(text);
+
+                if (item.allowPickUp) {
+                    // add the item to the player's inventory
+                    jgame.player.addToInventory({item: on});
+
+                    // mark the item as removed from the scene
+                    item["removed"] = true;
+                }
             }
         };
         

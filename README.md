@@ -144,3 +144,12 @@ The Player's inventory was getting a bit out of hand, so we're going to pull all
 
 * jgame.js - create a new Player object, and give it functions for interacting with the inventory.  Refactor the rest of the code to use this new object
 
+
+## Step 13: Introduce interactive scene items that can't be collected
+
+Sometimes we'll want to interact with items in a scene that we don't want the player to be able to pick up, so we introduce that kind of item, and refactor the code to handle it
+
+ * demo.js - add an item to the "cliff" scene, and introduce a new allowPickUp attribute to an items' definition
+ * jgame.js - refactor jgame.action to respect allowPickUp
+
+ 
