@@ -147,9 +147,12 @@ The Player's inventory was getting a bit out of hand, so we're going to pull all
 
 ## Step 13: Introduce interactive scene items that can't be collected
 
+[View Code](https://github.com/richard-jones/jgame/tree/885badae1f3caf1dfd569dcca742fea918d32143)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/885badae1f3caf1dfd569dcca742fea918d32143)
+
 Sometimes we'll want to interact with items in a scene that we don't want the player to be able to pick up, so we introduce that kind of item, and refactor the code to handle it
 
  * demo.js - add an item to the "cliff" scene, and introduce a new allowPickUp attribute to an items' definition
  * jgame.js - refactor jgame.action to respect allowPickUp
 
- 
