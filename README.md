@@ -156,3 +156,10 @@ Sometimes we'll want to interact with items in a scene that we don't want the pl
  * demo.js - add an item to the "cliff" scene, and introduce a new allowPickUp attribute to an items' definition
  * jgame.js - refactor jgame.action to respect allowPickUp
 
+
+## Step 14: Add a "use" control
+
+In order to use items with eachother we'll need to add a "use" control, and we'll need to extend the current controls to allow that
+
+* jgame.js - add a hidden select box which then appears only when "use" is selected from the controls.  Extend the action click handler to extract that information and send it to jgame.action if it is relevant
+

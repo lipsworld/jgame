@@ -247,13 +247,17 @@ var jgame = {
             var actionFrag = '<select name="jgame_action">\
                 <option value="look_at">Look At</option>\
                 <option value="pick_up">Pick Up</option>\
+                <option value="use">Use</option>\
             </select>\
-            <select name="jgame_item">' + itemOptionsFrag + '</select>\
-            <button id="jgame_act">Do it!</button>';
+            <select name="jgame_item">' + itemOptionsFrag + '</select>';
+
+            var withFrag = '<span id="jgame_with-container" style="display:none">&nbsp;With&nbsp;<select name="jgame_with">' + itemOptionsFrag + '</select></span>';
+
+            var buttonFrag = '&nbsp;<button id="jgame_act">Do it!</button>';
 
             // build the full set of controls and render into the page
             var html = '<div class="row"><div class="col-md-6"><strong>Where to?</strong><br>' + moveFrag + '</div>\
-                <div class="col-md-6"><strong>Choose an action</strong><br>' + actionFrag + '</div></div>';
+                <div class="col-md-6"><strong>Choose an action</strong><br>' + actionFrag + withFrag + buttonFrag + '</div></div>';
 
             $("#jgame_controls").html(html);
 
@@ -268,10 +272,30 @@ var jgame = {
             $("#jgame_act").on("click", function(event) {
                 event.preventDefault();
                 var action = $("select[name=jgame_action]").val();
+
                 var item = $("select[name=jgame_item]").val();
-                var bits = item.split(" ");
-                jgame.action({source: bits[0], action: action, on: bits[1]});
-            })
+                var itemBits = item.split(" ");
+
+                var useWith = false;
+                if (action === "use") {
+                    var withItem = $("select[name=jgame_with]").val();
+                    var withBits = withItem.split(" ");
+                    useWith = withBits[1];
+                }
+
+                jgame.action({source: itemBits[0], action: action, on: itemBits[1], useWith: useWith});
+            });
+
+            // bind the change event to the action pull-down
+            $("select[name=jgame_action]").on("change", function(event) {
+                event.preventDefault();
+                var action = $("select[name=jgame_action]").val();
+                if (action === "use") {
+                    $("#jgame_with-container").show();
+                } else {
+                    $("#jgame_with-container").hide();
+                }
+            });
         }
     }
 };
