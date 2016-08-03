@@ -184,6 +184,10 @@ Instead we're going to have to alow the game data to specify the behaviour, by a
 
 ## Step 16: add a new scene
 
+[View Code](https://github.com/richard-jones/jgame/tree/9329c4935424491056da96bef87d28cb099f8dbf)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/9329c4935424491056da96bef87d28cb099f8dbf)
+
 To demonstrate how the controls can be changed based on actions in the game, we add a new scene which can only be reached after an item has been used on another.
 
 * demo.js - define the new scene, and update the "use" function to add a move to that scene once the action has completed
