@@ -196,6 +196,11 @@ To demonstrate how the controls can be changed based on actions in the game, we 
 
 ## Step 17: Refactor the actions handling
 
+[View Code](https://github.com/richard-jones/jgame/tree/724801123098130c61f5ae4c21481eebe9d2517c)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/724801123098130c61f5ae4c21481eebe9d2517c)
+
+
 The code to handle the actions "Look At", "Pick Up" and "Use" was fragmented and confusing, so we need to take a step back and make a better job of handling actions.  This step consolidates actions into their own functions, which can be more complete in their behaviour.
 
 * jgame.js - refactor jgame.action, and farm out behaviours to jgame.lookAt, jgame.pickUp and jgame.use.  Along the way we make Scene.action obsolete, so it gets removed.
