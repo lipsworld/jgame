@@ -79,7 +79,7 @@ var jgame_demo = {
             jgame_demo.scenes["cliff"].removeItem({name: "Tree"});
             jgame_demo.scenes["cliff"].addItem({item: jgame_demo.sceneItems["Tree with Rope"]});
             jgame_demo.scenes["cliff"].addMove({move: {display : "Swing across the chasm!", move_to: "far_edge"}});
-            jgame.currentScene.say({text: "<br><br>You toss the loop of the lasso over the nearest branch of the tree and pull it tight, making a serviceable swinging rope!"});
+            jgame.currentScene.say({text: "You toss the loop of the lasso over the nearest branch of the tree and pull it tight, making a serviceable swinging rope!"});
         }
     }
 };

@@ -193,3 +193,9 @@ To demonstrate how the controls can be changed based on actions in the game, we 
 * demo.js - define the new scene, and update the "use" function to add a move to that scene once the action has completed
 * jgame.js - a tiny enhancement, to allow new moves to be added to a scene
 
+
+## Step 17: Refactor the actions handling
+
+The code to handle the actions "Look At", "Pick Up" and "Use" was fragmented and confusing, so we need to take a step back and make a better job of handling actions.  This step consolidates actions into their own functions, which can be more complete in their behaviour.
+
+* jgame.js - refactor jgame.action, and farm out behaviours to jgame.lookAt, jgame.pickUp and jgame.use.  Along the way we make Scene.action obsolete, so it gets removed.

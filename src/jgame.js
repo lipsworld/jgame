@@ -42,34 +42,92 @@ var jgame = {
     },
 
     action : function(params) {
-        var source = params.source;
-        if (source === "scene") {
-            jgame.currentScene.action(params);
+        var item = false;
+        if (params.source === "scene") {
+            item = jgame.currentScene.getItem({name: params.on});
+        } else if (params.source === "inventory") {
+            item = jgame.player.getInventoryItem({name: params.on});
+        }
+        if (item === false) {
+            jgame.currentScene.say({text: "<br><br>You didn't specify an item to act on"});
+            return;
+        }
 
-        } else if (source === "inventory") {
-            var item = jgame.player.getInventoryItem({name: params.on});
-            if (params.action === "look_at") {
-                var text = "<br><br>Look at " + item.name;
-                if (item.lookAt) {
-                    text = "<br><br>" + item.lookAt;
-                }
-                jgame.currentScene.say({text: text});
-
-            } else if (params.action === "pick_up") {
-                var text = "<br><br>You already picked that up";
-                jgame.currentScene.say({text: text});
-
-            } else if (params.action === "use") {
-                var useWith = params.useWith;
-                if (item.use && item.use[useWith]) {
-                    var fn = item.use[useWith];
-                    fn();
-                }
+        if (params.action === "look_at") {
+            jgame.lookAt({item: item, context: params.source});
+        } else if (params.action === "pick_up") {
+            jgame.pickUp({item: item, context: params.source});
+        } else if (params.action === "use") {
+            var useWithItem = false;
+            if (params.useWithSource === "scene") {
+                useWithItem = jgame.currentScene.getItem({name: params.useWith});
+            } else if (params.useWithSource === "inventory") {
+                useWithItem = jgame.player.getInventoryItem({name: params.useWith});
             }
+            if (useWithItem === false) {
+                jgame.currentScene.say({text: "<br><br>You didn't specify an item to act on"});
+                return;
+            }
+            jgame.use({item: item, useWithItem: useWithItem, context: params.source});
         }
 
         var controls = jgame.currentScene.getControls();
         controls.draw();
+    },
+
+    lookAt : function(params) {
+        var item = params.item;
+
+        var prefix = "<br><br>Look at " + item.name + ": ";
+        var text = "You look at the " + name;
+        if (item.lookAt) {
+            text = item.lookAt;
+        }
+
+        jgame.currentScene.say({text: prefix + text});
+    },
+
+    pickUp : function(params) {
+        var item = params.item;
+        var context = params.context;
+
+        var prefix = "<br><br>Pick up " + item.name + ": ";
+        var text = "You can't pick that up!";
+
+        if (context == "scene") {
+            if (item.allowPickUp) {
+                // add the item to the player's inventory and remove it from the scene
+                jgame.player.addToInventory({name: item.name});
+                jgame.currentScene.removeItem({name: item.name});
+                text = "You pick up the " + name;
+            }
+            if (item.pickUp) {
+                text = item.pickUp;
+            }
+        } else if (context === "inventory") {
+            text = "You already picked that up";
+        }
+
+        jgame.currentScene.say({text: prefix + text});
+    },
+
+    use : function(params) {
+        var item = params.item;
+        var useWithItem = params.useWithItem;
+
+        var prefix = "<br><br>Use " + item.name + " with " + useWithItem.name + ": ";
+
+        if (item.use && item.use[useWithItem.name]) {
+            var fn = item.use[useWithItem.name];
+            jgame.currentScene.say({text: prefix});
+            fn();
+        } else if (useWithItem.use && useWithItem.use[item.name]) {
+            var fn = useWithItem.use[item.name];
+            jgame.currentScene.say({text: prefix});
+            fn();
+        } else {
+            jgame.currentScene.say({text: prefix + "That doesn't work!"});
+        }
     },
 
     enterScene : function(params) {
@@ -104,7 +162,7 @@ var jgame = {
         };
 
         this.addToInventory = function(params) {
-            var inventoryItem = jgame.gameData.inventory[params.item];
+            var inventoryItem = jgame.gameData.inventory[params.name];
             this.inventory.push(inventoryItem);
         };
 
@@ -178,38 +236,6 @@ var jgame = {
                 sceneItems: sceneItems
             });
         };
-
-        this.action = function(params) {
-            var act = params.action;
-            var on = params.on;
-
-            if (act === "look_at") {
-                var item = this._getItem(on);
-                var text = "<br><br>Look at " + on;
-                if (item.lookAt) {
-                    text = "<br><br>" + item.lookAt;
-                }
-                $("#jgame_scene").append(text);
-            } else if (act === "pick_up") {
-                // get the item and all its data
-                var item = this._getItem(on);
-
-                // output something to the display
-                var text = "<br><br> Pick up " + on;
-                if (item.pickUp) {
-                    text = "<br><br>" + item.pickUp;
-                }
-                $("#jgame_scene").append(text);
-
-                if (item.allowPickUp) {
-                    // add the item to the player's inventory
-                    jgame.player.addToInventory({item: on});
-
-                    // mark the item as removed from the scene
-                    item["removed"] = true;
-                }
-            }
-        };
         
         this.addItem = function(params) {
             this.items.push(params.item)
@@ -232,9 +258,9 @@ var jgame = {
             this.moves.push(params.move)
         };
         
-        this._getItem = function(name) {
+        this.getItem = function(params) {
             for (var i = 0; i < this.items.length; i++) {
-                if (this.items[i].name === name) {
+                if (this.items[i].name === params.name) {
                     return this.items[i];
                 }
             }
@@ -322,13 +348,15 @@ var jgame = {
                 var on = item.substring(firstSpace + 1);
 
                 var useWith = false;
+                var useWithSource = false;
                 if (action === "use") {
                     var withItem = $("select[name=jgame_with]").val();
-                    var withBits = withItem.split(" ");
-                    useWith = withBits[1];
+                    var withFirstSpace = withItem.indexOf(" ");
+                    useWithSource = withItem.substring(0, withFirstSpace);
+                    useWith = withItem.substring(withFirstSpace + 1);
                 }
 
-                jgame.action({source: source, action: action, on: on, useWith: useWith});
+                jgame.action({source: source, action: action, on: on, useWith: useWith, useWithSource: useWithSource});
             });
 
             // bind the change event to the action pull-down
