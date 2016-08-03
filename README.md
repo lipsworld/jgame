@@ -170,6 +170,10 @@ In order to use items with eachother we'll need to add a "use" control, and we'l
 
 ## Step 15: Implement a "use" function
 
+[View Code](https://github.com/richard-jones/jgame/tree/667b5b525b8dceb4d6e500b5d5418f179199065b)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/667b5b525b8dceb4d6e500b5d5418f179199065b)
+
 This is probably our toughest step so far.  Using one object on another could have a variety of consequences, so it's not so easy to declare it like we did with Look At and Pick Up.
 
 Instead we're going to have to alow the game data to specify the behaviour, by allowing it to run a function of its own when one object is used on another.  So in this step we add such a function, and build all the extra behaviour the game needs to support running it.
