@@ -69,6 +69,8 @@ var jgame = {
                 return;
             }
             jgame.use({item: item, useWithItem: useWithItem, context: params.source});
+        } else if (params.action === "talk_to") {
+            jgame.talkTo({item: item, context: params.source});
         }
 
         var controls = jgame.currentScene.getControls();
@@ -128,6 +130,21 @@ var jgame = {
         } else {
             jgame.currentScene.say({text: prefix + "That doesn't work!"});
         }
+    },
+
+    talkTo : function(params) {
+        var item = params.item;
+
+        var prefix = "<br><br>Talk to " + item.name + ": ";
+        var text = "That doesn't make any sense";
+
+        if (item.talkTo) {
+            jgame.currentScene.setMode({mode: "talk"});
+            jgame.currentScene.setTalk({talkOptions : item.talkTo});
+            text = "";
+        }
+
+        jgame.currentScene.say({text: prefix + text});
     },
 
     enterScene : function(params) {
@@ -204,13 +221,17 @@ var jgame = {
         // list of items that appear in the scene
         this.items = params.items || [];
 
+        this.mode = "navigate";
+
+        this.talkOptions = false;
+
         // draw the scene into #jgame_scene
         this.draw = function() {
             var text = this.intro;
 
             for (var i = 0; i < this.items.length; i++) {
                 var item = this.items[i];
-                if (!item.removed && item.sceneDescription) {
+                if (item.sceneDescription) {
                     text += " " + item.sceneDescription;
                 }
             }
@@ -223,20 +244,29 @@ var jgame = {
         };
 
         this.getControls = function() {
-            var sceneItems = [];
-            for (var i = 0; i < this.items.length; i++) {
-                var item = this.items[i];
-                if (!item.removed) {
+            if (this.mode == "navigate") {
+                var sceneItems = [];
+                for (var i = 0; i < this.items.length; i++) {
+                    var item = this.items[i];
                     sceneItems.push(item.name);
                 }
-            }
 
-            return jgame.newControls({
-                moves: this.moves,
-                sceneItems: sceneItems
-            });
+                return jgame.newNavigateControls({
+                    moves: this.moves,
+                    sceneItems: sceneItems
+                });
+            } else if (this.mode == "talk") {
+                var questions = [];
+                for (var i = 0; i < this.talkOptions.length; i++) {
+                    questions.push(this.talkOptions[i].question);
+                }
+
+                return jgame.newTalkControls({
+                    questions: questions
+                })
+            }
         };
-        
+
         this.addItem = function(params) {
             this.items.push(params.item)
         };
@@ -265,15 +295,23 @@ var jgame = {
                 }
             }
             return false;
+        };
+
+        this.setMode = function(params) {
+            this.mode = params.mode;
+        };
+
+        this.setTalk = function(params) {
+            this.talkOptions = params.talkOptions;
         }
     },
 
     // each scene will need to return a set of controls for us to use
-    newControls : function(params) {
+    newNavigateControls : function(params) {
         if (!params) { params = {} }
-        return new jgame.Controls(params);
+        return new jgame.NavigateControls(params);
     },
-    Controls : function(params) {
+    NavigateControls : function(params) {
         // list of moves to offer the user
         // each entry in the list should be of the form
         // {display: "<value to display to user>", move_to: "<scene name the move takes you to>"}
@@ -317,6 +355,7 @@ var jgame = {
                 <option value="look_at">Look At</option>\
                 <option value="pick_up">Pick Up</option>\
                 <option value="use">Use</option>\
+                <option value="talk_to">Talk To</option>\
             </select>\
             <select name="jgame_item">' + itemOptionsFrag + '</select>';
 
@@ -369,6 +408,26 @@ var jgame = {
                     $("#jgame_with-container").hide();
                 }
             });
+        }
+    },
+
+    newTalkControls : function(params) {
+        if (!params) { params = {} }
+        return new jgame.TalkControls(params);
+    },
+    TalkControls : function(params) {
+        this.questions = params.questions || [];
+
+        this.draw = function () {
+            var talkOptions = "<ul>";
+            for (var i = 0; i < this.questions.length; i++) {
+                talkOptions += '<li><a href="#" class="jgame_talk">' + this.questions[i] + '</a></li>';
+            }
+            talkOptions += "</ul>";
+
+            // build the full set of controls and render into the page
+            var html = '<div class="row"><div class="col-md-12">' + talkOptions + '</div>';
+            $("#jgame_controls").html(html);
         }
     }
 };

@@ -48,7 +48,11 @@ var jgame_demo = {
                     sceneDescription: "An old woman blocks your way on the path",
                     lookAt: "An old woman wrapped in ragged clothes.  She looks grumpy.",
                     pickUp: "You don't think even your best moves would work on her",
-                    allowPickUp: false
+                    allowPickUp: false,
+                    talkTo : [
+                        {question : "What are you doing here?", answer: "This is where I live, innit, cheeky monkey."},
+                        {question : "Can you get out of my way?", answer: "Ooh, how rude, certainly not with that attitude."}
+                    ]
                 }
             ]
         })

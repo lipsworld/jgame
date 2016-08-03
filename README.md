@@ -204,3 +204,11 @@ To demonstrate how the controls can be changed based on actions in the game, we 
 The code to handle the actions "Look At", "Pick Up" and "Use" was fragmented and confusing, so we need to take a step back and make a better job of handling actions.  This step consolidates actions into their own functions, which can be more complete in their behaviour.
 
 * jgame.js - refactor jgame.action, and farm out behaviours to jgame.lookAt, jgame.pickUp and jgame.use.  Along the way we make Scene.action obsolete, so it gets removed.
+
+
+## Step 18: Introduce alternative controls
+
+We want to be able to "Talk To" characters in the game, but that will require different controls from the navigation we've been using so far.  So let's introduce the ability to change the controls based on actions.
+
+* demo.js - add a simple question/answer dialogue option.  This is probably the wrong way to do it, but we'll work out the right way later
+* jgame.js - introduce a second set of controls, and support a "talk to" action which triggers a mode change on the scene so that it starts to issue Talk controls rather than Navigate controls
