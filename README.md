@@ -167,3 +167,13 @@ In order to use items with eachother we'll need to add a "use" control, and we'l
 
 * jgame.js - add a hidden select box which then appears only when "use" is selected from the controls.  Extend the action click handler to extract that information and send it to jgame.action if it is relevant
 
+
+## Step 15: Implement a "use" function
+
+This is probably our toughest step so far.  Using one object on another could have a variety of consequences, so it's not so easy to declare it like we did with Look At and Pick Up.
+
+Instead we're going to have to alow the game data to specify the behaviour, by allowing it to run a function of its own when one object is used on another.  So in this step we add such a function, and build all the extra behaviour the game needs to support running it.
+
+* demo.js - define a function to run when one item is used on another, and referene that function from within each of the items concerned, so we know when to run it
+* jgame.js - add some utility functions to the player and the scene, and add the capability to act on a "use" action.  When the result of the "use" puts a new item on the scene we also find a bug in our event handler, so we fix that.
+

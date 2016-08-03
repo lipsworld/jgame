@@ -30,7 +30,10 @@ var jgame_demo = {
                     sceneDescription: "On the other side of the chasm a gnarled old tree's branches extend towards you.",
                     lookAt: "A huge, sturdy looking tree, whose branches feel only just out of reach",
                     pickUp: "The tree is way to heavy, and wouldn't fit in your bag",
-                    allowPickUp: false
+                    allowPickUp: false,
+                    use : {
+                        "Lasso" : function() { jgame_demo.functions.useLassoWithTree() }
+                    }
                 }
             ]
         })
@@ -40,7 +43,27 @@ var jgame_demo = {
     inventory : {
         "Lasso" : {
             name: "Lasso",
-            lookAt: "It's a lasso, like a cowboy might use.  You found it in a clearing."
+            lookAt: "It's a lasso, like a cowboy might use.  You found it in a clearing.",
+            use : {
+                "Tree" : function() { jgame_demo.functions.useLassoWithTree() }
+            }
+        }
+    },
+
+    // list of items that can appear in a scene
+    sceneItems : {
+        "Tree with Rope" : {
+            name: "Tree with Rope",
+            lookAt: "There's a rope hanging from the tree branch"
+        }
+    },
+
+    functions : {
+        useLassoWithTree : function() {
+            jgame.player.removeFromInventory({name: "Lasso"});
+            jgame_demo.scenes["cliff"].removeItem({name: "Tree"});
+            jgame_demo.scenes["cliff"].addItem({item: jgame_demo.sceneItems["Tree with Rope"]});
+            jgame.currentScene.say({text: "<br><br>You toss the loop of the lasso over the nearest branch of the tree and pull it tight, making a serviceable swinging rope!"});
         }
     }
 };

@@ -45,6 +45,7 @@ var jgame = {
         var source = params.source;
         if (source === "scene") {
             jgame.currentScene.action(params);
+
         } else if (source === "inventory") {
             var item = jgame.player.getInventoryItem({name: params.on});
             if (params.action === "look_at") {
@@ -53,9 +54,17 @@ var jgame = {
                     text = "<br><br>" + item.lookAt;
                 }
                 jgame.currentScene.say({text: text});
+
             } else if (params.action === "pick_up") {
                 var text = "<br><br>You already picked that up";
                 jgame.currentScene.say({text: text});
+
+            } else if (params.action === "use") {
+                var useWith = params.useWith;
+                if (item.use && item.use[useWith]) {
+                    var fn = item.use[useWith];
+                    fn();
+                }
             }
         }
 
@@ -97,6 +106,19 @@ var jgame = {
         this.addToInventory = function(params) {
             var inventoryItem = jgame.gameData.inventory[params.item];
             this.inventory.push(inventoryItem);
+        };
+
+        this.removeFromInventory = function(params) {
+            var idx = false;
+            for (var i = 0; i < this.inventory.length; i++) {
+                if (this.inventory[i].name === params.name) {
+                    idx = i;
+                    break
+                }
+            }
+            if (idx !== false) {
+                this.inventory.splice(idx, 1);
+            }
         };
 
         this.listInventory = function() {
@@ -189,6 +211,23 @@ var jgame = {
             }
         };
         
+        this.addItem = function(params) {
+            this.items.push(params.item)
+        };
+        
+        this.removeItem = function(params) {
+            var idx = false;
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].name === params.name) {
+                    idx = i;
+                    break
+                }
+            }
+            if (idx !== false) {
+                this.items.splice(idx, 1);
+            }
+        };
+        
         this._getItem = function(name) {
             for (var i = 0; i < this.items.length; i++) {
                 if (this.items[i].name === name) {
@@ -274,7 +313,9 @@ var jgame = {
                 var action = $("select[name=jgame_action]").val();
 
                 var item = $("select[name=jgame_item]").val();
-                var itemBits = item.split(" ");
+                var firstSpace = item.indexOf(" ");
+                var source = item.substring(0, firstSpace);
+                var on = item.substring(firstSpace + 1);
 
                 var useWith = false;
                 if (action === "use") {
@@ -283,7 +324,7 @@ var jgame = {
                     useWith = withBits[1];
                 }
 
-                jgame.action({source: itemBits[0], action: action, on: itemBits[1], useWith: useWith});
+                jgame.action({source: source, action: action, on: on, useWith: useWith});
             });
 
             // bind the change event to the action pull-down
