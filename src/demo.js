@@ -36,6 +36,21 @@ var jgame_demo = {
                     }
                 }
             ]
+        }),
+        "far_edge" : jgame.newScene({
+            intro: "You are standing on the edge of a cliff, beneath a huge tree.  A path leads down the mountain, into the trees.",
+            moves : [
+                {display: "Swing across the chasm!", move_to: "cliff"}
+            ],
+            items : [
+                {
+                    name: "Old Woman",
+                    sceneDescription: "An old woman blocks your way on the path",
+                    lookAt: "An old woman wrapped in ragged clothes.  She looks grumpy.",
+                    pickUp: "You don't think even your best moves would work on her",
+                    allowPickUp: false
+                }
+            ]
         })
     },
 
@@ -63,6 +78,7 @@ var jgame_demo = {
             jgame.player.removeFromInventory({name: "Lasso"});
             jgame_demo.scenes["cliff"].removeItem({name: "Tree"});
             jgame_demo.scenes["cliff"].addItem({item: jgame_demo.sceneItems["Tree with Rope"]});
+            jgame_demo.scenes["cliff"].addMove({move: {display : "Swing across the chasm!", move_to: "far_edge"}});
             jgame.currentScene.say({text: "<br><br>You toss the loop of the lasso over the nearest branch of the tree and pull it tight, making a serviceable swinging rope!"});
         }
     }

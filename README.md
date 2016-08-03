@@ -181,3 +181,11 @@ Instead we're going to have to alow the game data to specify the behaviour, by a
 * demo.js - define a function to run when one item is used on another, and referene that function from within each of the items concerned, so we know when to run it
 * jgame.js - add some utility functions to the player and the scene, and add the capability to act on a "use" action.  When the result of the "use" puts a new item on the scene we also find a bug in our event handler, so we fix that.
 
+
+## Step 16: add a new scene
+
+To demonstrate how the controls can be changed based on actions in the game, we add a new scene which can only be reached after an item has been used on another.
+
+* demo.js - define the new scene, and update the "use" function to add a move to that scene once the action has completed
+* jgame.js - a tiny enhancement, to allow new moves to be added to a scene
+

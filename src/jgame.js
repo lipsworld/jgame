@@ -227,6 +227,10 @@ var jgame = {
                 this.items.splice(idx, 1);
             }
         };
+
+        this.addMove = function(params) {
+            this.moves.push(params.move)
+        };
         
         this._getItem = function(name) {
             for (var i = 0; i < this.items.length; i++) {
