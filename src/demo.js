@@ -49,10 +49,14 @@ var jgame_demo = {
                     lookAt: "An old woman wrapped in ragged clothes.  She looks grumpy.",
                     pickUp: "You don't think even your best moves would work on her",
                     allowPickUp: false,
-                    talkTo : [
-                        {question : "What are you doing here?", answer: "This is where I live, innit, cheeky monkey."},
-                        {question : "Can you get out of my way?", answer: "Ooh, how rude, certainly not with that attitude."}
-                    ]
+                    talkTo : jgame.newConversation({
+                        options : {
+                            "one" : {question : "What are you doing here?", answer : "I live here, innit", add: [], remove: []},
+                            "two" : {question : "Can you get out of my way?", answer: "Ooh, not with that attitude, I can't", add: ["three"], remove: ["two"]},
+                            "three" : {question : "Please could you get out of my way?", answer: "That's a little better. But still no.", add: [], remove: []}
+                        },
+                        initial : ["one", "two"]
+                    })
                 }
             ]
         })

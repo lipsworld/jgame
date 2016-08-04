@@ -227,3 +227,11 @@ In the previous step we introduced a conversation control, though it didn't work
 
 * jgame.js - Define jgame.converse which runs the conversation, and add event handlers to the conversation control to interact with that method
 
+
+## Step 20: Implement a more advanced conversation mode
+
+The basic conversation was a bit unfulfilling, let's make it so the conversation can unfold over several steps instead.
+
+* demo.js - define a new conversation object, with three options, only two of which are initially available to the user
+* jgame.js - switch our basic list of conversation items for a Conversation object, which implements a load of features for working through conversations.
+

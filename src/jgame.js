@@ -140,7 +140,7 @@ var jgame = {
 
         if (item.talkTo) {
             jgame.currentScene.setMode({mode: "talk"});
-            jgame.currentScene.setTalk({talkOptions : item.talkTo});
+            jgame.currentScene.setTalk({conversation : item.talkTo});
             text = "";
         }
 
@@ -149,17 +149,20 @@ var jgame = {
 
     converse : function(params) {
         var end = params.end;
-        var question = params.question;
+        var id = params.id;
 
         if (end === true) {
             jgame.currentScene.setMode({mode: "navigate"});
-            jgame.currentScene.say({text: "<br><br>" + question});
+            jgame.currentScene.say({text: "<br><br>Nothing else just now ..."});
         } else {
-            var answer = jgame.currentScene.getAnswer({question: question});
-            if (answer === false) {
-                answer = "...";
+            var line = jgame.currentScene.conversation.getConversationLine({id: id});
+            var text = "<br><br>...";
+            if (line !== false) {
+                text = "<br><br>You: " + line.question + "<br>'" + line.answer + "'"
             }
-            jgame.currentScene.say({text : "<br><br>You: " + question + "<br>'" + answer + "'"});
+            jgame.currentScene.say({text : text});
+
+            jgame.currentScene.conversation.execute({id: id});
         }
 
         var controls = jgame.currentScene.getControls();
@@ -242,7 +245,7 @@ var jgame = {
 
         this.mode = "navigate";
 
-        this.talkOptions = false;
+        this.conversation = false;
 
         // draw the scene into #jgame_scene
         this.draw = function() {
@@ -278,13 +281,8 @@ var jgame = {
                     sceneItems: sceneItems
                 });
             } else if (this.mode == "talk") {
-                var questions = [];
-                for (var i = 0; i < this.talkOptions.length; i++) {
-                    questions.push(this.talkOptions[i].question);
-                }
-
                 return jgame.newTalkControls({
-                    questions: questions
+                    questions: this.conversation.getCurrentLines()
                 })
             }
         };
@@ -324,18 +322,68 @@ var jgame = {
         };
 
         this.setTalk = function(params) {
-            this.talkOptions = params.talkOptions;
+            this.conversation = params.conversation;
+        };
+    },
+
+    newConversation : function(params) {
+        if (!params) { params = {} }
+        return new jgame.Conversation(params);
+    },
+    Conversation : function(params) {
+        this.options = params.options;
+        this.current = params.initial;
+
+        this.getCurrentLines = function() {
+            var lines = [];
+            for (var i = 0; i < this.current.length; i++) {
+                var id = this.current[i];
+                var option = this.options[id];
+                option["id"] = id;
+                lines.push(option);
+            }
+            return lines;
         };
 
-        this.getAnswer = function(params) {
-            var question = params.question;
-            for (var i = 0; i < this.talkOptions.length; i++) {
-                if (this.talkOptions[i].question === question) {
-                    return this.talkOptions[i].answer;
-                }
+        this.getConversationLine = function(params) {
+            var id = params.id;
+            if (this.options.hasOwnProperty(id)) {
+                return this.options[id];
             }
             return false;
-        }
+        };
+
+        this.execute = function(params) {
+            var line = this.getConversationLine(params);
+            if (line === false) {
+                return;
+            }
+            if (line.add) {
+                for (var i = 0; i < line.add.length; i++) {
+                    var id = line.add[i];
+                    this.activate({id: id});
+                }
+            }
+            if (line.remove) {
+                for (var i = 0; i < line.remove.length; i++) {
+                    var id = line.remove[i];
+                    this.deactivate({id: id});
+                }
+            }
+        };
+
+        this.activate = function(params) {
+            var id = params.id;
+            if ($.inArray(id, this.current) === -1) {
+                this.current.push(id);
+            }
+        };
+
+        this.deactivate = function(params) {
+            var id = params.id;
+            var idx = $.inArray(id, this.current);
+            this.current.splice(idx, 1);
+        };
     },
 
     // each scene will need to return a set of controls for us to use
@@ -453,7 +501,7 @@ var jgame = {
         this.draw = function () {
             var talkOptions = "<ul>";
             for (var i = 0; i < this.questions.length; i++) {
-                talkOptions += '<li><a href="#" class="jgame_talk" data-tyoe="question">' + this.questions[i] + '</a></li>';
+                talkOptions += '<li><a href="#" class="jgame_talk" data-type="question" data-id="' + this.questions[i].id + '">' + this.questions[i].question + '</a></li>';
             }
             talkOptions += '<li><a href="#" class="jgame_talk" data-type="exit">Nothing else just now...</a></li>';
             talkOptions += "</ul>";
@@ -465,13 +513,13 @@ var jgame = {
             $(".jgame_talk").on("click", function(event) {
                 event.preventDefault();
                 var type = $(this).attr("data-type");
-                var question = $(this).html();
+                var id = $(this).attr("data-id");
 
                 if (type === "exit") {
-                    jgame.converse({end: true, question: question});
+                    jgame.converse({end: true, id: id});
                 } else {
 
-                    jgame.converse({question: question});
+                    jgame.converse({id: id});
                 }
 
             });
