@@ -219,6 +219,10 @@ We want to be able to "Talk To" characters in the game, but that will require di
 
 ## Step 19: Implement a basic conversation mode
 
+[View Code](https://github.com/richard-jones/jgame/tree/caf1218aca52c48080c03d26f9f754c0a6ef33bc)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/caf1218aca52c48080c03d26f9f754c0a6ef33bc)
+
 In the previous step we introduced a conversation control, though it didn't work.  Here we implement the ability to have a basic conversation, and to leave that conversation.
 
 * jgame.js - Define jgame.converse which runs the conversation, and add event handlers to the conversation control to interact with that method
