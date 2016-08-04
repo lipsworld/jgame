@@ -147,6 +147,25 @@ var jgame = {
         jgame.currentScene.say({text: prefix + text});
     },
 
+    converse : function(params) {
+        var end = params.end;
+        var question = params.question;
+
+        if (end === true) {
+            jgame.currentScene.setMode({mode: "navigate"});
+            jgame.currentScene.say({text: "<br><br>" + question});
+        } else {
+            var answer = jgame.currentScene.getAnswer({question: question});
+            if (answer === false) {
+                answer = "...";
+            }
+            jgame.currentScene.say({text : "<br><br>You: " + question + "<br>'" + answer + "'"});
+        }
+
+        var controls = jgame.currentScene.getControls();
+        controls.draw();
+    },
+
     enterScene : function(params) {
         var sceneId = params.sceneId;
 
@@ -240,7 +259,10 @@ var jgame = {
         };
 
         this.say = function(params) {
-            $("#jgame_scene").append(params.text);
+            var scene = $("#jgame_scene");
+            scene.append(params.text);
+            var height = scene[0].scrollHeight;
+            scene.scrollTop(height);
         };
 
         this.getControls = function() {
@@ -303,6 +325,16 @@ var jgame = {
 
         this.setTalk = function(params) {
             this.talkOptions = params.talkOptions;
+        };
+
+        this.getAnswer = function(params) {
+            var question = params.question;
+            for (var i = 0; i < this.talkOptions.length; i++) {
+                if (this.talkOptions[i].question === question) {
+                    return this.talkOptions[i].answer;
+                }
+            }
+            return false;
         }
     },
 
@@ -421,13 +453,28 @@ var jgame = {
         this.draw = function () {
             var talkOptions = "<ul>";
             for (var i = 0; i < this.questions.length; i++) {
-                talkOptions += '<li><a href="#" class="jgame_talk">' + this.questions[i] + '</a></li>';
+                talkOptions += '<li><a href="#" class="jgame_talk" data-tyoe="question">' + this.questions[i] + '</a></li>';
             }
+            talkOptions += '<li><a href="#" class="jgame_talk" data-type="exit">Nothing else just now...</a></li>';
             talkOptions += "</ul>";
 
             // build the full set of controls and render into the page
             var html = '<div class="row"><div class="col-md-12">' + talkOptions + '</div>';
             $("#jgame_controls").html(html);
+
+            $(".jgame_talk").on("click", function(event) {
+                event.preventDefault();
+                var type = $(this).attr("data-type");
+                var question = $(this).html();
+
+                if (type === "exit") {
+                    jgame.converse({end: true, question: question});
+                } else {
+
+                    jgame.converse({question: question});
+                }
+
+            });
         }
     }
 };

@@ -215,3 +215,11 @@ We want to be able to "Talk To" characters in the game, but that will require di
 
 * demo.js - add a simple question/answer dialogue option.  This is probably the wrong way to do it, but we'll work out the right way later
 * jgame.js - introduce a second set of controls, and support a "talk to" action which triggers a mode change on the scene so that it starts to issue Talk controls rather than Navigate controls
+
+
+## Step 19: Implement a basic conversation mode
+
+In the previous step we introduced a conversation control, though it didn't work.  Here we implement the ability to have a basic conversation, and to leave that conversation.
+
+* jgame.js - Define jgame.converse which runs the conversation, and add event handlers to the conversation control to interact with that method
+
