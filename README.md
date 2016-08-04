@@ -230,6 +230,10 @@ In the previous step we introduced a conversation control, though it didn't work
 
 ## Step 20: Implement a more advanced conversation mode
 
+[View Code](https://github.com/richard-jones/jgame/tree/10fcdf49fd1595495ce14d26140ccf9d0c8ce9c1)
+
+[View Diff](https://github.com/richard-jones/jgame/commit/10fcdf49fd1595495ce14d26140ccf9d0c8ce9c1)
+
 The basic conversation was a bit unfulfilling, let's make it so the conversation can unfold over several steps instead.
 
 * demo.js - define a new conversation object, with three options, only two of which are initially available to the user
